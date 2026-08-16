@@ -1,0 +1,44 @@
+# ============================================================
+# CITATION.cff (How to cite this project)
+# ============================================================
+
+# REQ.UNIVERSAL: Professional open projects SHOULD include this file.
+# USAGE: See https://citation-file-format.github.io/ for details.
+
+cff-version: "1.2.0"
+message: "If you use this work, please cite it using the metadata in this file."
+type: software
+
+title: "composable-data-core"
+# Set version and date-released to match latest git tag or release.
+version: "0.0.3"
+date-released: "2026-08-16"
+
+authors:
+  - family-names: Case
+    given-names: Denise M.
+    orcid: "https://orcid.org/0000-0001-6165-7389"
+    affiliation: "Northwest Missouri State University, School of Computer Science and Information Systems, Maryville, MO, USA"
+
+repository-code: "https://github.com/composable-data/composable-data-core"
+url: "https://github.com/composable-data/composable-data-core"
+
+license: MIT
+
+abstract: >
+  A small, typed decision grammar for analytical work. composable-data-core
+  provides shared declarations for analytical meaning, consequential decisions
+  and rationale, experimental evidence, and conclusions. It records analytical
+  structure without performing analytical operations.
+
+keywords:
+  - analytics
+  - decision-grammar
+  - analytical-decisions
+  - machine-learning
+  - experiment-design
+  - experiment-planning
+  - data-quality
+  - reproducible-analytics
+  - typed-python
+  - python
