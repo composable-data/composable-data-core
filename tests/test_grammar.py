@@ -67,6 +67,7 @@ def test_regression_experiment_grammar() -> None:
     assert spec.baseline == baseline
     assert spec.candidate == candidate
 
+
 def test_resolution_grammar() -> None:
     resolution = Resolution(
         problem="Region value E is documented shorthand for East.",

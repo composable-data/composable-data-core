@@ -17,9 +17,9 @@ Dependency-free (stdlib + regex). Exit code is non-zero if anything is found.
 from __future__ import annotations
 
 import argparse
+from pathlib import Path
 import re
 import sys
-from pathlib import Path
 
 # ============================================================
 # Patterns
@@ -67,13 +67,20 @@ _VERSION_PATTERNS: dict[str, re.Pattern[str]] = {
 # A name here, appearing in a repo that ISN'T it, flags as a possible leak.
 # ============================================================
 KNOWN_PROJECTS = [
-    "pup-core", "pup-up", "pup-check", "pup-clean",
-    "pro-analytics-01", "pro-analytics-02", "pro-analytics",
-    "datafun-toolkit", "datafun-streaming",
-    "composable-data-core", "ml-vizkit",
-    "se-manifest-schema", "se-codeowners",
+    "pup-core",
+    "pup-up",
+    "pup-check",
+    "pup-clean",
+    "pro-analytics-01",
+    "pro-analytics-02",
+    "pro-analytics",
+    "datafun-toolkit",
+    "datafun-streaming",
+    "composable-data-core",
+    "ml-vizkit",
+    "se-manifest-schema",
+    "se-codeowners",
     "applied-computing-foundations",
-    # TODO: add the rest of your namespace (dc-genealogy, civic-interconnect, etc.)
 ]
 
 
@@ -86,6 +93,7 @@ def norm(name: str) -> str:
 
 
 def repo_name(root: Path) -> str:
+    """Return the repo name from the root path."""
     return root.resolve().name
 
 
@@ -96,7 +104,7 @@ def read(root: Path, rel: str) -> str | None:
         return None
     try:
         return p.read_text(encoding="utf-8")
-    except (OSError, UnicodeDecodeError):
+    except OSError, UnicodeDecodeError:
         return None
 
 
@@ -169,12 +177,14 @@ def check_foreign_projects(root: Path) -> list[str]:
             if norm(proj) == repo:
                 continue  # naming yourself is fine
             if re.search(rf'(?<![\w-]){re.escape(proj)}(?![\w-])', text):
-                problems.append(f"{filename}: mentions other project {proj!r} (copy-paste leak?)")
+                problems.append(
+                    f"{filename}: mentions other project {proj!r} (copy-paste leak?)"
+                )
     return problems
 
 
 def check_versions(root: Path) -> list[str]:
-    """pyproject / CITATION / CHANGELOG versions should all agree."""
+    """Pyproject / CITATION / CHANGELOG versions should all agree."""
     found: dict[str, str] = {}
     for label, pat in _VERSION_PATTERNS.items():
         fname = label.split(" ")[0]
@@ -191,6 +201,7 @@ def check_versions(root: Path) -> list[str]:
 
 
 def check_repo(root: Path) -> list[str]:
+    """Run all checks on a repo root, returning a list of problems found."""
     return (
         check_identity(root)
         + check_src_package(root)
@@ -203,6 +214,7 @@ def check_repo(root: Path) -> list[str]:
 # Entry point
 # ============================================================
 def main() -> int:
+    """Main entry point. Returns 0 if clean, 1 if problems found."""
     ap = argparse.ArgumentParser(description="Detect copy-paste metadata leakage.")
     ap.add_argument("paths", nargs="*", default=["."], help="repo root(s) to check")
     args = ap.parse_args()
