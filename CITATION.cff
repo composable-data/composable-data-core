@@ -11,7 +11,7 @@ type: software
 
 title: "composable-data-core"
 # Set version and date-released to match latest git tag or release.
-version: "0.0.4"
+version: "0.0.5"
 date-released: "2026-08-16"
 
 authors:
