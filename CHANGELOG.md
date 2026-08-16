@@ -102,6 +102,5 @@ git push origin :refs/tags/vX.Z.Y
 
 [Unreleased]: https://github.com/composable-data/composable-data-core/compare/v0.0.3...HEAD
 [0.0.3]: https://github.com/composable-data/composable-data-core/releases/tag/v0.0.3
-[0.0.1]: https://github.com/composable-data/composable-data-core/releases/tag/v0.0.1
 
 <!-- markdownlint-enable MD024 -->
