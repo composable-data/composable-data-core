@@ -19,6 +19,7 @@ and this project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0
 
 - Changed `ModelPlan.parameters` to use an empty mapping
   by default instead of `None`.
+- Syntax only for 3.14 and 3.15 (not 3.12 or 3.13)
 
 ---
 
