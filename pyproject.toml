@@ -9,7 +9,7 @@
 [project]
 name = "composable-data-core"
 readme = "README.md"
-requires-python = ">=3.12,<3.16"
+requires-python = ">=3.14,<3.16"
 dynamic = ["version"] # WHY: Version is computed from git tags at build time.
 description = "A small, typed decision grammar for analytical work."
 license-files = ["LICENSE"]
@@ -20,8 +20,6 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: 3.15",
     "Topic :: Scientific/Engineering",
