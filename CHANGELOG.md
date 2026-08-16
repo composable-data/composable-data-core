@@ -15,28 +15,9 @@ and this project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0
 
 ## [0.0.3] - 2026-08-16
 
-### Changed
-
-- Target Python 3.14 so it works with matplotlib projects.
-
----
-
-## [0.0.2] - 2026-08-16
-
-### Changed
-
-- Refocused `composable-data-core` as a small, dependency-free decision grammar
-  for analytical work.
-- Reduced the public model to declarations for analytical decisions, rationale,
-  evidence, and conclusions.
-
----
-
-## [0.0.1] - 2026-08-14
-
 ### Added
 
-- Initial release of `composable-data-core`.
+- Updated release of `composable-data-core`.
 - Added typed-package support with `py.typed`.
 - Added professional project documentation, testing, type checking, linting, CI, and release infrastructure.
 
@@ -121,7 +102,6 @@ git push origin :refs/tags/vX.Z.Y
 
 [Unreleased]: https://github.com/composable-data/composable-data-core/compare/v0.0.3...HEAD
 [0.0.3]: https://github.com/composable-data/composable-data-core/releases/tag/v0.0.3
-[0.0.2]: https://github.com/composable-data/composable-data-core/releases/tag/v0.0.2
 [0.0.1]: https://github.com/composable-data/composable-data-core/releases/tag/v0.0.1
 
 <!-- markdownlint-enable MD024 -->
