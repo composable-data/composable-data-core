@@ -40,10 +40,13 @@ so they can be expressed consistently across projects.
 The core grammar consists of:
 
 - `Grain` - declares what one observation represents.
+- `LearningMode` - records whether the experiment is supervised or unsupervised.
 - `ProblemType` - records whether a supervised prediction problem is
   classification or regression.
-- `ExperimentPlan` - declares the dataset, target, available features, selected
-  features, problem type, and rationale for feature selection.
+- `ExperimentSpec` - declares the complete experiment specification known
+  before execution: dataset, grain, learning mode, problem type, target,
+  selected features and rationale, data resolution, split design, and
+  baseline and candidate model plans.
 - `SplitPlan` - declares how training and test observations are separated,
   including the split strategy and its rationale.
 - `ModelPlan` - declares one model choice, its experimental role, configuration,
@@ -51,8 +54,8 @@ The core grammar consists of:
 - `Evaluation` - records metric results computed elsewhere.
 - `ExperimentAssessment` - records the conclusion drawn from comparable
   experimental evidence.
-- `Resolution` - declares how an identified data problem should be handled and
-  why.
+- `Resolution` - records a declared policy for handling a known data-quality
+  condition when that policy is part of the experiment specification.
 - `Rationale` - provides free-form or structured reasoning for consequential
   analyst choices.
 
@@ -61,26 +64,23 @@ The core grammar consists of:
 The machine-learning grammar follows a simple progression:
 
 ```text
-MEANING
-Grain
+MEANING: Grain
     ↓
-PROBLEM
-ProblemType
+LEARNING MODE: LearningMode
     ↓
-PLAN
-ExperimentPlan
+PROBLEM: ProblemType
     ↓
-EXPERIMENTAL DESIGN
-SplitPlan
+SPECIFICATION: ExperimentSpec
+    ├── Resolution
+    ├── SplitPlan
+    ├── baseline ModelPlan
+    └── candidate ModelPlan
     ↓
-MODEL CHOICE
-ModelPlan
+EXECUTION: performed by external analytical libraries
     ↓
-EVIDENCE
-Evaluation
+EVIDENCE: Evaluation
     ↓
-CONCLUSION
-ExperimentAssessment
+CONCLUSION: ExperimentAssessment
 ```
 
 `Resolution` provides the corresponding decision declaration for data-quality
@@ -92,17 +92,18 @@ Not every declaration requires a rationale.
 The grammar distinguishes among:
 
 ```text
+Grain                   declared meaning
+LearningMode            derived fact
 ProblemType             derived fact
 
-ExperimentPlan          decision + rationale
+ExperimentSpec          experiment specification
+Resolution              decision + rationale
 SplitPlan               decision + rationale
 ModelPlan               decision + rationale
 
 Evaluation              recorded evidence
 
 ExperimentAssessment    conclusion + rationale
-
-Resolution              decision + rationale
 ```
 
 The governing principle is:
@@ -129,18 +130,22 @@ Examples include:
 Grain provides a shared analytical concept across tabular data, databases,
 business intelligence, machine learning, and streaming applications.
 
-## transitioning From Analytical Workflow to Grammar
+## Transitioning From Analytical Workflow to Grammar
 
 The grammar is designed around a common analytical pattern:
 
 1. Define the problem and target.
-2. Identify the available features.
-3. Select the features to use and explain why.
-4. Define the train/test split.
-5. Choose a baseline or candidate model and explain why.
-6. Execute the experiment with an external analytical library.
+2. Load or inspect the data and identify the available features.
+3. Validate that the declared selected features are available.
+4. Use the selected features and rationale declared in `ExperimentSpec`.
+5. Execute the declared split.
+6. Execute the baseline and candidate model plans.
 7. Record the resulting evaluation evidence.
 8. Assess what the evidence supports, including limitations and possible next experiments.
+
+`ExperimentSpec` contains only declarations knowable before execution.
+Observed facts such as the features actually available in a loaded dataset
+are discovered and validated during execution.
 
 `composable-data-core` represents only the parts of this workflow that need
 shared analytical meaning.
@@ -168,8 +173,8 @@ External libraries perform the computation.
 Those operations belong to established libraries and specialized tools.
 
 For example, scikit-learn may perform a train/test split and train a model.
-`composable-data-core` records the analytical decisions that define that
-experiment.
+`composable-data-core` records the analytical meaning and
+pre-run decisions that define the experiment.
 
 A visualization package may display the resulting model performance.
 `composable-data-core` records the experiment and its evidence.

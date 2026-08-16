@@ -13,6 +13,18 @@ and this project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0
 
 ---
 
+## [0.0.4] - 2026-08-16
+
+### Changed
+
+- Replaced `ExperimentPlan` with `ExperimentSpec` as the pre-run experiment specification.
+- Removed `available_features` from the experiment specification
+  because available features are observed from loaded data during execution.
+- Consolidated experiment meaning, design, resolution, split,
+  baseline, and candidate model declarations into `ExperimentSpec`.
+
+---
+
 ## [0.0.3] - 2026-08-16
 
 ### Added
@@ -100,7 +112,8 @@ git push origin :refs/tags/vX.Z.Y
 
 ## Links
 
-[Unreleased]: https://github.com/composable-data/composable-data-core/compare/v0.0.3...HEAD
+[Unreleased]: https://github.com/composable-data/composable-data-core/compare/v0.0.4...HEAD
+[0.0.4]: https://github.com/composable-data/composable-data-core/releases/tag/v0.0.4
 [0.0.3]: https://github.com/composable-data/composable-data-core/releases/tag/v0.0.3
 
 <!-- markdownlint-enable MD024 -->

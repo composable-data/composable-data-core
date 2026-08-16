@@ -5,7 +5,7 @@ A small typed decision grammar for analytical work.
 
 from composable_data_core.evaluation import Evaluation
 from composable_data_core.experiment_assessment import ExperimentAssessment
-from composable_data_core.experiment_plan import ExperimentPlan
+from composable_data_core.experiment_spec import ExperimentSpec
 from composable_data_core.grain import Grain
 from composable_data_core.learning_mode import LearningMode
 from composable_data_core.model_plan import ModelPlan
@@ -20,7 +20,7 @@ from composable_data_core.split_plan import SplitPlan
 __all__ = [
     "Evaluation",
     "ExperimentAssessment",
-    "ExperimentPlan",
+    "ExperimentSpec",
     "Grain",
     "LearningMode",
     "ModelPlan",

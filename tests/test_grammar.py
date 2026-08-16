@@ -1,8 +1,7 @@
 from composable_data_core import (
-    Evaluation,
-    ExperimentAssessment,
-    ExperimentPlan,
+    ExperimentSpec,
     Grain,
+    LearningMode,
     ModelPlan,
     ModelRole,
     ProblemType,
@@ -15,50 +14,58 @@ from composable_data_core import (
 
 def test_regression_experiment_grammar() -> None:
     grain = Grain("one country-year")
-    plan = ExperimentPlan(
-        dataset="owid-co2-data-subset",
-        target="co2",
-        available_features=("year", "population", "gdp", "co2_per_capita"),
-        selected_features=("gdp",),
-        problem_type=ProblemType.REGRESSION,
-        feature_rationale="GDP was selected as the feature to investigate.",
-    )
+
     split = SplitPlan(
         method=SplitMethod.RANDOM,
         test_size=0.20,
         seed=42,
         rationale="Use a reproducible random holdout for this example.",
     )
+
+    resolution = Resolution(
+        problem="Rows missing required modeling values cannot be used.",
+        action=ResolutionAction.DROP,
+        rationale="Drop rows missing the selected feature or target.",
+    )
+
     baseline = ModelPlan(
         estimator="DummyRegressor",
         role=ModelRole.BASELINE,
-        rationale="Provide a simple performance floor.",
+        parameters={"strategy": "mean"},
+        rationale="Use the training mean as the regression baseline.",
     )
+
     candidate = ModelPlan(
         estimator="LinearRegression",
         role=ModelRole.CANDIDATE,
-        rationale="Test whether a straight line is a useful description.",
-    )
-    evaluation = Evaluation(
-        model_id="linear-regression",
-        metrics={"r2": 0.81, "mae": 123.4},
-    )
-    assessment = ExperimentAssessment(
-        comparison="LinearRegression versus DummyRegressor on the same test set",
-        conclusion="The candidate outperformed the baseline.",
-        rationale="The candidate produced better held-out evaluation results.",
-        winner_model_id="linear-regression",
-        baseline_beaten=True,
+        rationale="Evaluate a simple linear relationship between GDP and CO2.",
     )
 
-    assert grain.observation == "one country-year"
-    assert plan.problem_type is ProblemType.REGRESSION
-    assert split.seed == 42
-    assert baseline.role is ModelRole.BASELINE
-    assert candidate.role is ModelRole.CANDIDATE
-    assert evaluation.metrics["r2"] == 0.81
-    assert assessment.baseline_beaten is True
+    spec = ExperimentSpec(
+        dataset="owid-co2-data-subset",
+        grain=grain,
+        learning_mode=LearningMode.SUPERVISED,
+        problem_type=ProblemType.REGRESSION,
+        target="co2",
+        selected_features=("gdp",),
+        feature_rationale="GDP was selected as the feature to investigate.",
+        resolution=resolution,
+        split=split,
+        baseline_id="mean-baseline",
+        baseline=baseline,
+        candidate_id="linear-regression",
+        candidate=candidate,
+    )
 
+    assert spec.dataset == "owid-co2-data-subset"
+    assert spec.grain == grain
+    assert spec.learning_mode is LearningMode.SUPERVISED
+    assert spec.problem_type is ProblemType.REGRESSION
+    assert spec.target == "co2"
+    assert spec.selected_features == ("gdp",)
+    assert spec.split == split
+    assert spec.baseline == baseline
+    assert spec.candidate == candidate
 
 def test_resolution_grammar() -> None:
     resolution = Resolution(

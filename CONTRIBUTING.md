@@ -13,7 +13,7 @@ This package is a grammar not a framework.
 
 - `Grain`
 - `ProblemType`
-- `ExperimentPlan`
+- `ExperimentSpec`
 - `SplitPlan`
 - `ModelPlan`
 - `Evaluation`
